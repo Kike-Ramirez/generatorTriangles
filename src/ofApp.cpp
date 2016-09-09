@@ -41,16 +41,28 @@ void ofApp::draw(){
         for(int i = 0; i < steps[c].size(); i++){
             ofVec3f p = steps[c][i];
 
-            float angleInit = ofMap(p.x, 0, 600, 0, 2*PI);
-            float angleEnd = angleInit + ofMap(p.y, 0, 600, 0, 2*PI);
+            float angleInit;
+            float angleEnd;
 
             ofVec3f center;
+            ofVec3f a;
+            ofVec3f b;
 
-            if (folder == 0) center.set(centerA.x, centerA.y);
-            else if (folder == 1) center.set(centerB.x, centerB.y);
+            if (folder == 0) {
+                angleInit = ofMap(p.x, 0, 600, 2*PI, 0);
+                angleEnd = angleInit + ofMap(p.y, 0, 600, 2*PI, 0);
+                center.set(centerA.x, centerA.y);
+                a.set(center.x + 600 * cos(angleInit), center.y + 600*sin(angleInit));
+                b.set(center.x + 600 * cos(angleEnd), center.y + 600*sin(angleEnd));
+            }
 
-            ofVec3f a(center.x + 600 * cos(angleInit), center.y + 600*sin(angleInit));
-            ofVec3f b(center.x + 600 * cos(angleEnd), center.y + 600*sin(angleEnd));
+            else if (folder == 1) {
+                angleInit = ofMap(p.x, 0, 600, 0, 2*PI);
+                angleEnd = angleInit + ofMap(p.y, 0, 600, 0, 2*PI);
+                center.set(centerB.x, centerB.y);
+                a.set(center.x - 600 * cos(angleInit), center.y - 600*sin(angleInit));
+                b.set(center.x - 600 * cos(angleEnd), center.y - 600*sin(angleEnd));
+            }
 
             ofSetHexColor(colors[p.z]);
             //ofDrawRectangle(0, p.x, 600, p.y);
